@@ -1,6 +1,9 @@
 package chess;
 
-public class ChessException extends RuntimeException {
+import boardgame.BoardException;
+
+//basta capturar ChessException que também captura possíveis BoardException
+public class ChessException extends BoardException {
 	private static final long serialVersionUID = 1L;
 
 	//construtor que recebe um String
