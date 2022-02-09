@@ -44,6 +44,8 @@ public class ChessMatch {
 		//convertendo para posições da matriz
 		Position source = sourcePosition.toPosition();
 		Position target = targetPosition.toPosition();
+		//validando uma posição de destino
+		validateTargetPosition(source, target);
 		//validando se na posição de origem há uma peça
 		validateSourcePosition(source);
 		//makeMove() - resp. realizar o movimento da peça
@@ -68,6 +70,15 @@ public class ChessMatch {
 		//testar se existe movimentos possíveis para a peça
 		if(!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("There is no possible moves for the chosen piece");
+		}
+	}
+	
+	//método para validação da posição de destino
+	private void validateTargetPosition(Position source, Position target) {
+		/*posição de destino é válida em relação a de origem?
+		 * Position target é um movimento possível em relação a peça que tiver na Position source*/
+		if(!board.piece(source).possibleMove(target)) {
+			throw new ChessException("The chose piece can't move to target position");
 		}
 	}
 

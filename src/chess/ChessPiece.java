@@ -2,6 +2,7 @@ package chess;
 
 import boardgame.Board;
 import boardgame.Piece;
+import boardgame.Position;
 
 //ChessPiece é uma subclasse de Piece
 public abstract class ChessPiece extends Piece {
@@ -16,5 +17,14 @@ public abstract class ChessPiece extends Piece {
 	//apenas o get, pq com o set se modifica a cor, e não é o caso
 	public Color getColor() {
 		return color;
+	}
+	
+	//operação vai ser reaproveitada em todas as outras peças
+	//protected - operação acessada somente pelo pacote chess e as subclasses chess.pieces
+	protected boolean isThereOpponentPiece(Position position) {
+		//implementação para verificar se existe uma peça adversária em position
+		ChessPiece chp = (ChessPiece)getBoard().piece(position);
+		//testando se a cor da minha peça é diferente da cor da peça adversária
+		return chp != null && chp.getColor() != color;
 	}
 }

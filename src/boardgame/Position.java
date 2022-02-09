@@ -26,6 +26,12 @@ public class Position {
 		this.column = column;
 	}
 	
+	//recebendo novos valores para linha e coluna
+	public void setValues(int row, int column) {
+		this.row = row;
+		this.column = column;
+	}
+	
 	//criando um toString para imprimir a posição na tela
 	@Override
 	public String toString() {
