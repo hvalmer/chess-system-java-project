@@ -26,7 +26,16 @@ public class Program {
 				//digitar a posição de origem
 				System.out.print("Source: ");
 				//lendo a posição de origem
+				//imprimindo as posições possíveis, a partir de uma posição de origem
 				ChessPosition source = UI.readChessPosition(sc);
+				
+				//declarando uma matriz booleana
+				boolean[][] possibleMovies = chessMatch.possibleMovies(source);
+				//limpando a tela
+				UI.clearScreen();
+				//imprimindo novamente o tabuleiro, passando os movimentos possíveis
+				//possibleMovies...colorindo as posições que a peça pode mover
+				UI.printBoard(chessMatch.getPieces(), possibleMovies);				
 				System.out.println();
 				//digitar a posição de destino
 				System.out.print("Target: ");

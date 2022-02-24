@@ -55,11 +55,28 @@ public class UI {
 	}
 
 	// método para imprimir as linhas e colunas
+	/*quando for pra imprimir o tabuleiro, sem a questão dos movimentos possíveis, 
+	 * vou imprimir 'false', indicando que nenhuma peça é pra ter o fundo colorido*/
 	public static void printBoard(ChessPiece[][] pieces) {
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");// imprime a linha
 			for (int j = 0; j < pieces.length; j++) {
-				printPiece(pieces[i][j]);// imprime a peça
+				printPiece(pieces[i][j], false);// imprime a peça
+			}
+			System.out.println();// quebra de linha pra próxima linha
+		}
+		System.out.println("  a b c d e f g h");
+	}
+	
+	// método para imprimir os movimentos possíveis das peças
+	/*quando for imprimir o tabuleiro(boolean[][] possibleMovies), considerando
+	 * os movimentos possíveis, passando o possibleMovies[i][j]-posições, pintando
+	 * o fundo colorido, dependendo dessa variável*/
+	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMovies) {
+		for (int i = 0; i < pieces.length; i++) {
+			System.out.print((8 - i) + " ");// imprime a linha
+			for (int j = 0; j < pieces.length; j++) {
+				printPiece(pieces[i][j], possibleMovies[i][j]);// imprime a peça
 			}
 			System.out.println();// quebra de linha pra próxima linha
 		}
@@ -67,7 +84,12 @@ public class UI {
 	}
 
 	// método auxiliar para imprimir uma única peça
-	private static void printPiece(ChessPiece piece) {
+	//boolean background - variável para indicar se vai colorir ou não o fundo da minha peça
+	private static void printPiece(ChessPiece piece, boolean background) {
+		//testando se a variável background é verdadeira, sendo assim, vai ou não colorir o fundo de azul 
+		if(background) {
+			System.out.print(ANSI_BLUE_BACKGROUND);
+		}
 		if (piece == null) {
 			System.out.print("-" + ANSI_RESET);
 		} else {

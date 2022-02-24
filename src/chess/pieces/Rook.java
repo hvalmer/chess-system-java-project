@@ -23,10 +23,10 @@ public class Rook extends ChessPiece {
 		// implementando os movimentos possíveis da torre
 		Position p = new Position(0, 0);
 
-		// verificando acima(above) da peça...position é a posição da peça
+		// verificando posições acima(above) da peça...position é a posição da peça
 		p.setValues(position.getRow() - 1, position.getColumn());
-		// enquanto a posição p existir e ñ tiver uma peça lá, vou marcar a posição como
-		// verdadeira
+		// enquanto a posição p existir e ñ tiver uma peça lá, ou seja, posição vazia, vou marcar a posição como
+		// verdadeira(true)
 		while (getBoard().positionExistis(p) && !getBoard().thereIsAPiece(p)) {
 			matriz[p.getRow()][p.getColumn()] = true;
 			// fazendo a linha dessa posição andar mais uma casa pra cima
@@ -36,11 +36,10 @@ public class Rook extends ChessPiece {
 		if (getBoard().positionExistis(p) && isThereOpponentPiece(p)) {
 			matriz[p.getRow()][p.getColumn()] = true;
 		}
-
-		// verificando a esquerda(left) da peça...position é a posição da peça
+		// verificando posições a esquerda(left) da peça...position é a posição da peça
 		p.setValues(position.getRow(), position.getColumn() - 1);
-		// enquanto a posição p existir e ñ tiver uma peça lá, vou marcar a posição como
-		// verdadeira
+		// enquanto a posição p existir e ñ tiver uma peça lá, ou seja, posição vazia, vou marcar a posição como
+		// verdadeira(true)
 		while (getBoard().positionExistis(p) && !getBoard().thereIsAPiece(p)) {
 			matriz[p.getRow()][p.getColumn()] = true;
 			// fazendo a linha dessa posição andar mais uma casa pra esquerda
@@ -51,10 +50,10 @@ public class Rook extends ChessPiece {
 			matriz[p.getRow()][p.getColumn()] = true;
 		}
 
-		// verificando a direita(right) da peça...position é a posição da peça
+		// verificando posições a direita(right) da peça...position é a posição da peça
 		p.setValues(position.getRow(), position.getColumn() + 1);
-		// enquanto a posição p existir e ñ tiver uma peça lá, vou marcar a posição como
-		// verdadeira
+		// enquanto a posição p existir e ñ tiver uma peça lá, ou seja, posição vazia, vou marcar a posição como
+		// verdadeira(true)
 		while (getBoard().positionExistis(p) && !getBoard().thereIsAPiece(p)) {
 			matriz[p.getRow()][p.getColumn()] = true;
 			// fazendo a linha dessa posição andar mais uma casa pra direita
@@ -65,10 +64,10 @@ public class Rook extends ChessPiece {
 			matriz[p.getRow()][p.getColumn()] = true;
 		}
 
-		// verificando abaixo(below) da peça...position é a posição da peça
+		// verificando posições abaixo(below) da peça...position é a posição da peça
 		p.setValues(position.getRow() + 1, position.getColumn());
-		// enquanto a posição p existir e ñ tiver uma peça lá, vou marcar a posição como
-		// verdadeira
+		// enquanto a posição p existir e ñ tiver uma peça lá, ou seja, posição vazia, vou marcar a posição como
+		// verdadeira(true)
 		while (getBoard().positionExistis(p) && !getBoard().thereIsAPiece(p)) {
 			matriz[p.getRow()][p.getColumn()] = true;
 			// fazendo a linha dessa posição andar mais uma casa pra cima

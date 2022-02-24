@@ -19,7 +19,7 @@ public abstract class ChessPiece extends Piece {
 		return color;
 	}
 	
-	//operação vai ser reaproveitada em todas as outras peças
+	//operação genérica, vai ser reaproveitada em todas as outras peças
 	//protected - operação acessada somente pelo pacote chess e as subclasses chess.pieces
 	protected boolean isThereOpponentPiece(Position position) {
 		//implementação para verificar se existe uma peça adversária em position
