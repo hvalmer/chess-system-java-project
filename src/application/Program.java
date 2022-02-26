@@ -21,7 +21,7 @@ public class Program {
 			try {
 				//chamando o método que limpa a tela de xadrez, a cada vez que voltar no while
 				UI.clearScreen();
-				UI.printBoard(chessMatch.getPieces());
+				UI.printMatch(chessMatch);
 				System.out.println();
 				//digitar a posição de origem
 				System.out.print("Source: ");

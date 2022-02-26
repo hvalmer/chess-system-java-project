@@ -11,13 +11,27 @@ import chess.pieces.Rook;
  * Essa classe sabe da dimensão de um tabuleiro de xadrez*/
 public class ChessMatch {
 
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 
 	public ChessMatch() {
 		board = new Board(8, 8);
+		turn = 1;
+		//a partida sempre inicia com a peça branca
+		currentPlayer = Color.WHITE;
 		initialSetup();
 	}
 
+	//apenas mostrar métodos get para turn e currentPlayer
+	public int getTurn() {
+		return turn;
+	}
+	
+	public Color getCurrentPlayer() {
+		return currentPlayer;
+	}
+	
 	/*
 	 * método retorna uma matriz de peças de xadrez correspondente a
 	 * partida(ChessMatch) ChessPiece é a camada de xadrez e não o board e liberar
@@ -60,6 +74,8 @@ public class ChessMatch {
 		validateSourcePosition(source);
 		//makeMove() - resp. realizar o movimento da peça
 		Piece capturedPeace = makeMove(source, target);
+		//após executar uma jogada, chamar o método..., para trocar o turno(cor da peça)
+		nextTurn();
 		return (ChessPiece)capturedPeace;
 	}
 	
@@ -77,6 +93,13 @@ public class ChessMatch {
 		if(!board.thereIsAPiece(position)) {
 			throw new ChessException("There is no piece on source position"); 
 		}
+		/*testando...pegando a peça do tabuleiro na posição tal, faço o down 
+		 * casting p/ ChessPiece e testo a cor dela, se a cor for diferente
+		 * da cuurrentPlayer, significa é uma peça do adversário, não posso movê-la
+		 * lançando uma exception, caso o jogador estiver tentando movê-la*/
+		if(currentPlayer != ((ChessPiece)board.piece(position)).getColor()) {
+			throw new ChessException("The chosen piece is not yours!");
+		}
 		//testar se existe movimentos possíveis para a peça
 		if(!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("There is no possible moves for the chosen piece");
@@ -90,6 +113,13 @@ public class ChessMatch {
 		if(!board.piece(source).possibleMove(target)) {
 			throw new ChessException("The chose piece can't move to target position");
 		}
+	}
+	
+	//método para trocar o turno(cores das peças)
+	private void nextTurn() {
+		turn++;
+		//expressão condicional ternária...se o jogador atual for White, então ele vira Black, caso contrário vira White
+		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
 	}
 
 	//método para receber as coordenadas do xadrez

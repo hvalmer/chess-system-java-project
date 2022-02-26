@@ -3,6 +3,7 @@ package application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
@@ -52,6 +53,15 @@ public class UI {
 		} catch (RuntimeException ex) {
 			throw new InputMismatchException("Error reading ChessPosition. Valid values are form a1 to h8");
 		}
+	}
+	
+	//método para exibir o turno(cor da peça) e o jogador atual...
+	//imprimindo a partida (tabuleiro e as movimentações do jogador)
+	public static void printMatch(ChessMatch chessMatch) {
+		printBoard(chessMatch.getPieces());
+		System.out.println();
+		System.out.println("Turn: " + chessMatch.getTurn());
+		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
 	}
 
 	// método para imprimir as linhas e colunas
