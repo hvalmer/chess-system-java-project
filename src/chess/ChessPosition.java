@@ -34,7 +34,7 @@ public class ChessPosition {
 	//dada uma posição na matriz, converter para uma posição de xadrez
 	protected static ChessPosition fromPosition(Position position) {
 		//método retorna a forma normal da matriz para posição de xadrez
-		return new ChessPosition((char)('a' - position.getColumn()), 8 - position.getRow());
+		return new ChessPosition((char)('a' + position.getColumn()), 8 - position.getRow());
 	}
 	
 	//fazendo o toString da posição

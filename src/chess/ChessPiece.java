@@ -19,6 +19,12 @@ public abstract class ChessPiece extends Piece {
 		return color;
 	}
 	
+	//método para retornar uma posição, no formato do xadrez na classe ChessPiece
+	//o método estático fromPosition pega o position e converte para posição de xadrez(ChessPosition)
+	public ChessPosition getChessPosition() {
+		return ChessPosition.fromPosition(position);
+	}
+	
 	//operação genérica, vai ser reaproveitada em todas as outras peças
 	//protected - operação acessada somente pelo pacote chess e as subclasses chess.pieces
 	protected boolean isThereOpponentPiece(Position position) {
