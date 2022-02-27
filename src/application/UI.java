@@ -1,7 +1,10 @@
 package application;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import chess.ChessMatch;
 import chess.ChessPiece;
@@ -34,7 +37,7 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-	//método para limpar a tela quando da movimentação no xadrez
+	// método para limpar a tela quando da movimentação no xadrez
 	// https://stackoverflow.com/questions/2979383/java-clear-the-console
 	public static void clearScreen() {
 		System.out.print("\033[H\033[2J");
@@ -49,24 +52,29 @@ public class UI {
 			// recortar o string a partir da posição 1 e converter(parseInt) para inteiro
 			int row = Integer.parseInt(st.substring(1));
 			return new ChessPosition(column, row);
-			//lança uma exceção em relação a posição digitada errada InputMismatchException
+			// lança uma exceção em relação a posição digitada errada InputMismatchException
 		} catch (RuntimeException ex) {
 			throw new InputMismatchException("Error reading ChessPosition. Valid values are form a1 to h8");
 		}
 	}
-	
-	//método para exibir o turno(cor da peça) e o jogador atual...
-	//imprimindo a partida (tabuleiro e as movimentações do jogador)
-	public static void printMatch(ChessMatch chessMatch) {
+
+	// método para exibir o turno(cor da peça) e o jogador atual...
+	// imprimindo a partida (tabuleiro e as movimentações do jogador)
+	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
 		printBoard(chessMatch.getPieces());
+		System.out.println();
+		//imprimindo as peças capturadas, depois de imprimir o tabuleiro(printBoard)
+		printCapturedPieces(captured);
 		System.out.println();
 		System.out.println("Turn: " + chessMatch.getTurn());
 		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
 	}
 
 	// método para imprimir as linhas e colunas
-	/*quando for pra imprimir o tabuleiro, sem a questão dos movimentos possíveis, 
-	 * vou imprimir 'false', indicando que nenhuma peça é pra ter o fundo colorido*/
+	/*
+	 * quando for pra imprimir o tabuleiro, sem a questão dos movimentos possíveis,
+	 * vou imprimir 'false', indicando que nenhuma peça é pra ter o fundo colorido
+	 */
 	public static void printBoard(ChessPiece[][] pieces) {
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");// imprime a linha
@@ -77,11 +85,13 @@ public class UI {
 		}
 		System.out.println("  a b c d e f g h");
 	}
-	
+
 	// método para imprimir os movimentos possíveis das peças
-	/*quando for imprimir o tabuleiro(boolean[][] possibleMovies), considerando
-	 * os movimentos possíveis, passando o possibleMovies[i][j]-posições, pintando
-	 * o fundo colorido, dependendo dessa variável*/
+	/*
+	 * quando for imprimir o tabuleiro(boolean[][] possibleMovies), considerando os
+	 * movimentos possíveis, passando o possibleMovies[i][j]-posições, pintando o
+	 * fundo colorido, dependendo dessa variável
+	 */
 	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMovies) {
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print((8 - i) + " ");// imprime a linha
@@ -94,10 +104,12 @@ public class UI {
 	}
 
 	// método auxiliar para imprimir uma única peça
-	//boolean background - variável para indicar se vai colorir ou não o fundo da minha peça
+	// boolean background - variável para indicar se vai colorir ou não o fundo da
+	// minha peça
 	private static void printPiece(ChessPiece piece, boolean background) {
-		//testando se a variável background é verdadeira, sendo assim, vai ou não colorir o fundo de azul 
-		if(background) {
+		// testando se a variável background é verdadeira, sendo assim, vai ou não
+		// colorir o fundo de azul
+		if (background) {
 			System.out.print(ANSI_BLUE_BACKGROUND);
 		}
 		if (piece == null) {
@@ -110,5 +122,37 @@ public class UI {
 			}
 		}
 		System.out.print(" ");
+	}
+
+	// manipulação das peças capturadas, método responsável por imprimir essas peças
+	// capturadas
+	private static void printCapturedPieces(List<ChessPiece> captured) {
+		// duas listas, a partir de peças capturadas(captured)operação básica para
+		// filtrar
+		// a lista usando um filter especificado
+		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE)
+				.collect(Collectors.toList());
+		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK)
+				.collect(Collectors.toList());
+
+		// lógica pra imprimir as listas na tela
+		System.out.println("Captured Pieces: ");
+		// para peças brancas
+		System.out.print("White: ");
+		// garantindo que essa lista seja impressa na cor branca(ANSI_WHITE)
+		System.out.print(ANSI_WHITE);
+		// forma padrão de imprimir uma lista de Arrays de valores java
+		System.out.println(Arrays.toString(white.toArray()));
+		// resetando a cor da impressão
+		System.out.print(ANSI_RESET);
+
+		// para peças preta
+		System.out.print("Black: ");
+		// garantindo que essa lista seja impressa na cor preta(ANSI_BLACK)
+		System.out.print(ANSI_YELLOW);
+		// forma padrão de imprimir uma lista de Arrays de valores java
+		System.out.println(Arrays.toString(black.toArray()));
+		// resetando a cor da impressão
+		System.out.print(ANSI_RESET);
 	}
 }
