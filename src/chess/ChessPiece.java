@@ -8,6 +8,7 @@ import boardgame.Position;
 public abstract class ChessPiece extends Piece {
 
 	private Color color;
+	private int moveCount;
 
 	public ChessPiece(Board board, Color color) {
 		super(board);//o board repassa achamada p o construtor da superclasse, que é o construtor da classe Piece
@@ -17,6 +18,19 @@ public abstract class ChessPiece extends Piece {
 	//apenas o get, pq com o set se modifica a cor, e não é o caso
 	public Color getColor() {
 		return color;
+	}
+	
+	public int getMoveCount() {
+		return moveCount;
+	}
+	
+	//incrementando e decrementando o valor
+	public void increaseMoveCount() {
+		moveCount++;
+	}
+	
+	public void decreaseMoveCount() {
+		moveCount--;
 	}
 	
 	//método para retornar uma posição, no formato do xadrez na classe ChessPiece
