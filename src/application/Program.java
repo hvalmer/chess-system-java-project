@@ -22,7 +22,8 @@ public class Program {
 		List<ChessPiece> captured = new ArrayList<>();
 		
 		//função para imprimir as peças da partida
-		while(true) {
+		//o programa vai rodar enquanto não for checkmat
+		while(!chessMatch.getCheckMate()) {
 			try {
 				//chamando o método que limpa a tela de xadrez, a cada vez que voltar no while
 				UI.clearScreen();
@@ -64,5 +65,9 @@ public class Program {
 				sc.nextLine();//o programa aguarda eu apertar ENTER
 			}
 		}
+		//terminando o checkMat acima
+		UI.clearScreen();//limpando a tela
+		//imprimir a visão geral da partida finalizada
+		UI.printMatch(chessMatch, captured);
 	}
 }
