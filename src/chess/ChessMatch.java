@@ -1,5 +1,6 @@
 package chess;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,8 @@ public class ChessMatch {
 	private boolean check;
 	private boolean checkMate;
 	private ChessPiece enPassantVulnerable;
+	//jogada especial
+	private ChessPiece promoted;
 
 	// declarando as listas de peças do tatubeiro e peças capturadas, lista genérica
 	private List<Piece> piecesOnTheBoard = new ArrayList<>();
@@ -58,6 +61,11 @@ public class ChessMatch {
 
 	public ChessPiece getEnPassantVulnerable() {
 		return enPassantVulnerable;
+	}
+	
+	//jogada especial
+	public ChessPiece getPromoted() {
+		return promoted;
 	}
 
 	/*
@@ -110,7 +118,23 @@ public class ChessMatch {
 		}
 
 		ChessPiece movedPeace = (ChessPiece) board.piece(target);
-
+		
+		/*jogada especial promotion...testada antes do ckeck do oponente
+		 * pq qdo mudar o peão para uma peça mais poderosa, podendo deixar
+		 * o adversario em check*/
+		promoted = null;
+		if(movedPeace instanceof Pawn) {
+			//tanto o peão BRANCO como o PRETO chegaram ao final do tabuleiro
+			if((movedPeace.getColor() == Color.WHITE && target.getRow() == 0) || 
+					movedPeace.getColor() == Color.BLACK && target.getRow() == 7) {
+				//fazendo o tratamento especial - o peão foi promovido
+				promoted = (ChessPiece)board.piece(target);
+				//trocando o peão por uma peça mais poderosa
+				//por padrão, será trocada pela rainha (Q)
+				promoted = replacePromotedPiece("Q");
+			}
+		}
+		
 		// testando se o oponente não ficou em xeque
 		check = (testCheck(opponent(currentPlayer))) ? true : false;
 		// se ajogada feita deixou o oponente em checkmate, o jogo vai acabar
@@ -132,6 +156,36 @@ public class ChessMatch {
 		}
 
 		return (ChessPiece) capturedPeace;
+	}
+	
+	//o usuário poderá trocar a peça desejada
+	public ChessPiece replacePromotedPiece(String type) {
+		//programação defensiva - Exception
+		if(promoted == null) {
+			throw new IllegalStateException("There is no piece to be promoted!");
+		}
+		//verificando se String type é uma letra válida
+		if(!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
+			throw new InvalidParameterException("Invalid type for promotion");
+		}
+		//começando o processo de remoção do peão pela peça nobre
+		Position posit = promoted.getChessPosition().toPosition();
+		Piece piece = board.removePiece(posit);
+		piecesOnTheBoard.remove(piece);
+		
+		//instanciando uma nova peça da mesma cor
+		ChessPiece newPiece = newPeace(type, promoted.getColor());
+		board.placePiece(newPiece, posit);
+		piecesOnTheBoard.add(newPiece);
+		
+		return newPiece;
+	}
+	//método auxiliar para instanciar a peça especifica
+	private ChessPiece newPeace(String type, Color color) {
+		if(type.equals("B")) return new Bishop(board, color);
+		if(type.equals("N")) return new Knight(board, color);
+		if(type.equals("Q")) return new Queen(board, color);
+		return new Rook(board, color);
 	}
 
 	// operação makeMove, lógica do movimento

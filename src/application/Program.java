@@ -55,6 +55,14 @@ public class Program {
 				if(capturedPiece != null) {
 					captured.add(capturedPiece);
 				}
+				
+				//testando a promoção da peça...se diferente de null, foi promovida
+				//o usuario terá condições de escolher qual peça no lugar do peão
+				if(chessMatch.getPromoted() != null) {
+					System.out.println("Enter piece for promotion (B/N/R/Q): ");
+					String type = sc.nextLine();
+					chessMatch.replacePromotedPiece(type);
+				}
 			}
 			catch(ChessException ex) {
 				System.out.println(ex.getMessage());//imprime a mensagem para o usuário
