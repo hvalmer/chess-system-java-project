@@ -1,6 +1,5 @@
 package chess;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -166,7 +165,7 @@ public class ChessMatch {
 		}
 		//verificando se String type é uma letra válida
 		if(!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
-			throw new InvalidParameterException("Invalid type for promotion");
+			return promoted;
 		}
 		//começando o processo de remoção do peão pela peça nobre
 		Position posit = promoted.getChessPosition().toPosition();

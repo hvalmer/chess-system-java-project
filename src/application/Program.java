@@ -60,7 +60,12 @@ public class Program {
 				//o usuario terá condições de escolher qual peça no lugar do peão
 				if(chessMatch.getPromoted() != null) {
 					System.out.println("Enter piece for promotion (B/N/R/Q): ");
-					String type = sc.nextLine();
+					String type = sc.nextLine().toUpperCase();
+					//validação para apenas qdo digitar as peças da prmoção(B/N/R/Q), digitar a letra correta
+					while(!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
+						System.out.println("Invalid value...Enter piece for promotion (B/N/R/Q): ");
+						type = sc.nextLine().toUpperCase();
+					}
 					chessMatch.replacePromotedPiece(type);
 				}
 			}
